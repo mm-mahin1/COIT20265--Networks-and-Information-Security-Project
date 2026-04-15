@@ -108,7 +108,17 @@ def encode_session(log_lines):
     for line in log_lines:
         template = make_template(line)
         event_id = event_id_from_template(template)
-        token_id = small_token2idx.get(event_id, UNK_ID)
+
+        if event_id in small_token2idx:
+            token_id = small_token2idx[event_id]
+        else:
+            # stable fallback so different unseen templates do not all become one UNK token
+            token_id = (int(event_id, 16) % (FINAL_VOCAB_SIZE - 3)) + 3
+
+            # avoid special tokens if they collide
+            if token_id in (PAD_ID, UNK_ID, MASK_ID):
+                token_id = UNK_ID
+
         event_ids.append(token_id)
 
     event_ids = event_ids[:MAX_LEN]
@@ -223,7 +233,7 @@ def classify_cloud_alert(log_lines, score):
     }
 
 
-def score_log_file(file_path, window_size=20, step_size=10):
+def score_log_file(file_path, window_size=10, step_size=10):
     with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
         lines = [line.strip() for line in f if line.strip()]
 
@@ -257,12 +267,15 @@ def score_log_file(file_path, window_size=20, step_size=10):
 
 
 if __name__ == "__main__":
-    log_file = r"D:\Downloads\Capstone\Dataset\Collected\cloud_auth.log"
+    # log_file = r"D:\Downloads\Capstone\Dataset\Collected\cloud_auth.log"
     # log_file = r"D:\Downloads\Capstone\Dataset\Collected\cloud_syslog.log"
-
+    # log_file = r"D:\Downloads\Capstone\Dataset\Collected\cloud_syslog_mixed_with_bursts.log"
+    
+    log_file = r"D:\Downloads\Capstone\Dataset\Collected\cloud_logs_merged_all.log"
+    
     results = score_log_file(
         file_path=log_file,
-        window_size=20,
+        window_size=10,
         step_size=10
     )
 
