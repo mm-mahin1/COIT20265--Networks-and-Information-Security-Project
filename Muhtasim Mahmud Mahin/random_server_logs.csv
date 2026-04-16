@@ -1,0 +1,195 @@
+log_message,cleaned_log,timestamp,source,threat_score,severity,matched_keywords,ml_label,ml_prob,is_anomaly,true_category
+accepted publickey for ubuntu from 27.0.77.138 port 52476,accepted publickey for ubuntu from ip_addr port_num,2025-04-14 09:00:00,random_server,0,NORMAL,[],0,0.26,False,NORMAL
+failed password for invalid user testuser from 7.36.106.158 port 61480,failed password for invalid user testuser from ip_addr port_num,2025-04-14 09:00:50,random_server,20,MEDIUM,"['failed', 'invalid']",1,0.92,True,MEDIUM
+new session opened for user ubuntu by loginuid,new session opened for user ubuntu by loginuid,2025-04-14 09:01:22,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+service started successfully systemd pid,service started successfully systemd pid,2025-04-14 09:00:57,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+new session opened for user ubuntu by loginuid,new session opened for user ubuntu by loginuid,2025-04-14 09:00:44,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+connection closed by invalid user wronguser 53.185.75.177 port 50038 preauth,connection closed by invalid user wronguser ip_addr port_num preauth,2025-04-14 09:03:35,random_server,14,LOW,"['invalid', 'wrong']",1,1.0,True,MEDIUM
+fatal error authentication subsystem crashed connection aborted from 77.46.133.133,fatal error authentication subsystem crashed connection aborted from ip_addr,2025-04-14 09:03:12,random_server,30,MEDIUM,"['fatal', 'error', 'abort']",1,0.67,True,HIGH
+fatal error authentication subsystem crashed connection aborted from 198.114.168.163,fatal error authentication subsystem crashed connection aborted from ip_addr,2025-04-14 09:07:00,random_server,30,MEDIUM,"['fatal', 'error', 'abort']",1,0.67,True,HIGH
+unknown service request from 253.99.122.210 port 62281 dropping,unknown service request from ip_addr port_num dropping,2025-04-14 09:03:12,random_server,8,NORMAL,"['unknown', 'dropping']",0,0.27,True,LOW
+fatal error authentication subsystem crashed connection aborted from 52.252.182.188,fatal error authentication subsystem crashed connection aborted from ip_addr,2025-04-14 09:09:00,random_server,30,MEDIUM,"['fatal', 'error', 'abort']",1,0.67,True,HIGH
+exception in io handler for connection 72.241.132.50 port 60433,exception in io handler for connection ip_addr port_num,2025-04-14 09:09:20,random_server,4,NORMAL,['exception'],0,0.35,True,LOW
+unauthorized sudo attempt by user guest tty ssh from 253.178.186.21,unauthorized sudo attempt by user guest tty ssh from ip_addr,2025-04-14 09:04:24,random_server,16,MEDIUM,['unauthorized'],0,0.26,True,HIGH
+service started successfully systemd pid,service started successfully systemd pid,2025-04-14 09:09:48,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+authentication failure logname uid euid tty ssh rhost 216.0.245.233,authentication failure logname uid euid tty ssh rhost ip_addr,2025-04-14 09:03:15,random_server,20,MEDIUM,"['failure', 'authentication failure']",1,0.96,True,MEDIUM
+unauthorized access attempt to restricted file etc shadow from 214.61.198.201,unauthorized access attempt to restricted file etc shadow from ip_addr,2025-04-14 09:04:54,random_server,16,MEDIUM,['unauthorized'],0,0.03,True,HIGH
+new session opened for user ubuntu by loginuid,new session opened for user ubuntu by loginuid,2025-04-14 09:08:45,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+new session opened for user ubuntu by loginuid,new session opened for user ubuntu by loginuid,2025-04-14 09:05:04,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+unauthorized privilege escalation attempt uid from 152.238.74.157 port 64695,unauthorized privilege escalation attempt uid from ip_addr port_num,2025-04-14 09:09:04,random_server,32,MEDIUM,"['unauthorized', 'privilege escalation']",0,0.24,True,HIGH
+accepted publickey for ubuntu from 40.67.10.4 port 52519,accepted publickey for ubuntu from ip_addr port_num,2025-04-14 09:17:06,random_server,0,NORMAL,[],0,0.26,False,NORMAL
+accepted password for user ubuntu from 240.71.222.253 port 55535 ssh2,accepted password for user ubuntu from ip_addr port_num ssh2,2025-04-14 09:03:29,random_server,0,NORMAL,[],0,0.29,False,NORMAL
+illegal user admin from 65.108.149.129 port 57033,illegal user admin from ip_addr port_num,2025-04-14 09:15:40,random_server,16,MEDIUM,['illegal'],0,0.42,True,HIGH
+illegal user admin from 84.132.214.214 port 53447,illegal user admin from ip_addr port_num,2025-04-14 09:19:57,random_server,16,MEDIUM,['illegal'],0,0.42,True,HIGH
+accepted password for user ubuntu from 91.234.215.212 port 53436 ssh2,accepted password for user ubuntu from ip_addr port_num ssh2,2025-04-14 09:06:58,random_server,0,NORMAL,[],0,0.29,False,NORMAL
+service started successfully systemd pid,service started successfully systemd pid,2025-04-14 09:03:50,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+cron pam_unix session opened for user root,cron pam_unix session opened for user root,2025-04-14 09:22:24,random_server,0,NORMAL,[],0,0.09,False,NORMAL
+failed password for root from 31.31.166.175 port 64962 ssh2,failed password for root from ip_addr port_num ssh2,2025-04-14 09:18:45,random_server,10,LOW,['failed'],1,0.81,True,MEDIUM
+refused connection from 15.127.97.71 port 50534 policy violation,refused connection from ip_addr port_num policy violation,2025-04-14 09:06:56,random_server,10,LOW,['refused'],0,0.21,True,MEDIUM
+attack detected multiple failed logins from 130.231.14.195 port 51228 exceeded threshold,attack detected multiple failed logins from ip_addr port_num exceeded threshold,2025-04-14 09:13:30,random_server,36,MEDIUM,"['attack', 'failed', 'exceeded']",1,0.61,True,HIGH
+connection closed by invalid user wronguser 157.102.141.116 port 64816 preauth,connection closed by invalid user wronguser ip_addr port_num preauth,2025-04-14 09:11:40,random_server,14,LOW,"['invalid', 'wrong']",1,1.0,True,MEDIUM
+cron pam_unix session opened for user root,cron pam_unix session opened for user root,2025-04-14 09:17:24,random_server,0,NORMAL,[],0,0.09,False,NORMAL
+pam_unix sshd session session opened for user ubuntu,pam_unix sshd session session opened for user ubuntu,2025-04-14 09:12:30,random_server,0,NORMAL,[],0,0.06,False,NORMAL
+accepted password for user ubuntu from 110.37.108.172 port 59073 ssh2,accepted password for user ubuntu from ip_addr port_num ssh2,2025-04-14 09:30:29,random_server,0,NORMAL,[],0,0.29,False,NORMAL
+invalid user wronguser from 40.187.73.65 port 53649,invalid user wronguser from ip_addr port_num,2025-04-14 09:12:48,random_server,14,LOW,"['invalid', 'wrong']",1,1.0,True,MEDIUM
+new session opened for user ubuntu by loginuid,new session opened for user ubuntu by loginuid,2025-04-14 09:28:36,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+bad packet received from 214.114.82.181 unexpected sequence,bad packet received from ip_addr unexpected sequence,2025-04-14 09:19:50,random_server,4,NORMAL,['bad'],0,0.01,True,LOW
+server listening on 87.215.100.92 port 59589,server listening on ip_addr port_num,2025-04-14 09:32:40,random_server,0,NORMAL,[],0,0.13,False,NORMAL
+failure pam_securetty from 94.9.173.142 port 64181 tty ssh,failure pam_securetty from ip_addr port_num tty ssh,2025-04-14 09:33:00,random_server,10,LOW,['failure'],0,0.28,True,MEDIUM
+failure pam_securetty from 5.196.169.133 port 58833 tty ssh,failure pam_securetty from ip_addr port_num tty ssh,2025-04-14 09:08:38,random_server,10,LOW,['failure'],0,0.28,True,MEDIUM
+illegal login attempt user root from 29.117.53.22 port 57854 preauth,illegal login attempt user root from ip_addr port_num preauth,2025-04-14 09:07:36,random_server,16,MEDIUM,['illegal'],0,0.38,True,HIGH
+denied connection from 232.92.138.194 port 53397 blacklisted host,denied connection from ip_addr port_num blacklisted host,2025-04-14 09:34:27,random_server,20,MEDIUM,"['denied', 'blacklisted']",0,0.18,True,MEDIUM
+possible break-in attempt reverse mapping checking getaddrinfo for host-90.example.com 210.132.207.39 failed,possible break in attempt reverse mapping checking getaddrinfo for host 90 example com ip_addr failed,2025-04-14 09:20:00,random_server,10,LOW,['failed'],1,0.94,True,HIGH
+unauthorized access attempt to restricted file etc shadow from 23.142.29.205,unauthorized access attempt to restricted file etc shadow from ip_addr,2025-04-14 09:09:34,random_server,16,MEDIUM,['unauthorized'],0,0.03,True,HIGH
+illegal login attempt user root from 69.8.45.206 port 57689 preauth,illegal login attempt user root from ip_addr port_num preauth,2025-04-14 09:33:36,random_server,16,MEDIUM,['illegal'],0,0.38,True,HIGH
+service started successfully systemd pid,service started successfully systemd pid,2025-04-14 09:07:10,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+timeout waiting for response from host-6.example.com 87.213.137.160,timeout waiting for response from host 6 example com ip_addr,2025-04-14 09:31:32,random_server,4,NORMAL,['timeout'],0,0.03,True,LOW
+bad packet received from 182.122.56.249 unexpected sequence,bad packet received from ip_addr unexpected sequence,2025-04-14 09:09:45,random_server,4,NORMAL,['bad'],0,0.01,True,LOW
+unknown service request from 47.103.159.161 port 59146 dropping,unknown service request from ip_addr port_num dropping,2025-04-14 09:44:28,random_server,8,NORMAL,"['unknown', 'dropping']",0,0.27,True,LOW
+bad packet received from 53.148.228.129 unexpected sequence,bad packet received from ip_addr unexpected sequence,2025-04-14 09:25:04,random_server,4,NORMAL,['bad'],0,0.01,True,LOW
+server listening on 206.9.128.10 port 49654,server listening on ip_addr port_num,2025-04-14 09:44:48,random_server,0,NORMAL,[],0,0.13,False,NORMAL
+abort reconnect to 130.97.243.63 port 63801 failed retrying,abort reconnect to ip_addr port_num failed retrying,2025-04-14 09:42:28,random_server,18,MEDIUM,"['failed', 'abort', 'retry']",1,0.68,True,LOW
+connection from 210.221.253.140 port 62032 at timestamp,connection from ip_addr port_num at timestamp,2025-04-14 09:24:10,random_server,0,NORMAL,[],0,0.21,False,NORMAL
+accepted publickey for ubuntu from 177.110.117.88 port 55660,accepted publickey for ubuntu from ip_addr port_num,2025-04-14 09:47:36,random_server,0,NORMAL,[],0,0.26,False,NORMAL
+server listening on 163.71.207.254 port 60540,server listening on ip_addr port_num,2025-04-14 09:15:36,random_server,0,NORMAL,[],0,0.13,False,NORMAL
+pam_unix sshd session session opened for user ubuntu,pam_unix sshd session session opened for user ubuntu,2025-04-14 09:13:15,random_server,0,NORMAL,[],0,0.06,False,NORMAL
+failure pam_securetty from 171.195.144.154 port 57088 tty ssh,failure pam_securetty from ip_addr port_num tty ssh,2025-04-14 09:25:12,random_server,10,LOW,['failure'],0,0.28,True,MEDIUM
+exception in io handler for connection 12.235.94.41 port 57967,exception in io handler for connection ip_addr port_num,2025-04-14 09:09:10,random_server,4,NORMAL,['exception'],0,0.35,True,LOW
+connection from 68.186.168.249 port 59753 at timestamp,connection from ip_addr port_num at timestamp,2025-04-14 09:11:12,random_server,0,NORMAL,[],0,0.21,False,NORMAL
+error maximum authentication attempts exceeded for root from 248.158.111.92 port 55147,error maximum authentication attempts exceeded for root from ip_addr port_num,2025-04-14 09:29:27,random_server,20,MEDIUM,"['error', 'exceeded']",1,0.84,True,MEDIUM
+connection from 98.42.243.72 port 55737 at timestamp,connection from ip_addr port_num at timestamp,2025-04-14 09:40:36,random_server,0,NORMAL,[],0,0.21,False,NORMAL
+session closed for user ubuntu,session closed for user ubuntu,2025-04-14 09:34:25,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+breach detected new outbound connection 151.21.201.6 after repeated login failures,breach detected new outbound connection ip_addr after repeated login failures,2025-04-14 09:50:00,random_server,26,MEDIUM,"['breach', 'failure']",0,0.12,True,HIGH
+breach detected new outbound connection 60.43.79.169 after repeated login failures,breach detected new outbound connection ip_addr after repeated login failures,2025-04-14 09:30:30,random_server,26,MEDIUM,"['breach', 'failure']",0,0.12,True,HIGH
+break-in attempt detected from 185.253.76.73 hostname failed dns lookup,break in attempt detected from ip_addr hostname failed dns lookup,2025-04-14 09:56:50,random_server,10,LOW,['failed'],1,0.7,True,HIGH
+failed password for invalid user testuser from 229.219.71.233 port 49678,failed password for invalid user testuser from ip_addr port_num,2025-04-14 09:49:21,random_server,20,MEDIUM,"['failed', 'invalid']",1,0.92,True,MEDIUM
+possible break-in attempt reverse mapping checking getaddrinfo for host-18.example.com 205.117.43.8 failed,possible break in attempt reverse mapping checking getaddrinfo for host 18 example com ip_addr failed,2025-04-14 09:53:20,random_server,10,LOW,['failed'],1,0.94,True,HIGH
+pam_unix sshd auth check pass user unknown,pam_unix sshd auth check pass user unknown,2025-04-14 09:14:05,random_server,14,LOW,"['check pass user unknown', 'unknown']",1,1.0,True,MEDIUM
+accepted password for user ubuntu from 161.9.125.126 port 57795 ssh2,accepted password for user ubuntu from ip_addr port_num ssh2,2025-04-14 09:42:54,random_server,0,NORMAL,[],0,0.29,False,NORMAL
+failed password for root from 205.35.47.169 port 51316 ssh2,failed password for root from ip_addr port_num ssh2,2025-04-14 10:03:39,random_server,10,LOW,['failed'],1,0.81,True,MEDIUM
+connection from 122.129.38.217 port 57853 at timestamp,connection from ip_addr port_num at timestamp,2025-04-14 10:03:28,random_server,0,NORMAL,[],0,0.21,False,NORMAL
+sshd server rekeying after key bytes,sshd server rekeying after key bytes,2025-04-14 09:39:06,random_server,0,NORMAL,[],0,0.01,False,NORMAL
+invalid user wronguser from 20.245.147.197 port 50683,invalid user wronguser from ip_addr port_num,2025-04-14 09:58:20,random_server,14,LOW,"['invalid', 'wrong']",1,1.0,True,MEDIUM
+illegal login attempt user root from 165.101.39.154 port 53982 preauth,illegal login attempt user root from ip_addr port_num preauth,2025-04-14 09:30:46,random_server,16,MEDIUM,['illegal'],0,0.38,True,HIGH
+refused connection from 167.155.68.4 port 64959 policy violation,refused connection from ip_addr port_num policy violation,2025-04-14 09:49:12,random_server,10,LOW,['refused'],0,0.21,True,MEDIUM
+accepted publickey for ubuntu from 69.50.111.173 port 65195,accepted publickey for ubuntu from ip_addr port_num,2025-04-14 10:06:55,random_server,0,NORMAL,[],0,0.26,False,NORMAL
+sshd server rekeying after key bytes,sshd server rekeying after key bytes,2025-04-14 09:20:58,random_server,0,NORMAL,[],0,0.01,False,NORMAL
+service started successfully systemd pid,service started successfully systemd pid,2025-04-14 09:13:45,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+breach detected new outbound connection 75.234.39.210 after repeated login failures,breach detected new outbound connection ip_addr after repeated login failures,2025-04-14 09:43:04,random_server,26,MEDIUM,"['breach', 'failure']",0,0.12,True,HIGH
+failure pam_securetty from 54.107.38.149 port 52111 tty ssh,failure pam_securetty from ip_addr port_num tty ssh,2025-04-14 10:13:09,random_server,10,LOW,['failure'],0,0.28,True,MEDIUM
+unauthorized access attempt to restricted file etc shadow from 135.134.184.34,unauthorized access attempt to restricted file etc shadow from ip_addr,2025-04-14 10:11:30,random_server,16,MEDIUM,['unauthorized'],0,0.03,True,HIGH
+timeout waiting for response from host-51.example.com 94.118.254.230,timeout waiting for response from host 51 example com ip_addr,2025-04-14 09:14:29,random_server,4,NORMAL,['timeout'],0,0.03,True,LOW
+unauthorized privilege escalation attempt uid from 41.1.251.175 port 63922,unauthorized privilege escalation attempt uid from ip_addr port_num,2025-04-14 09:38:40,random_server,32,MEDIUM,"['unauthorized', 'privilege escalation']",0,0.24,True,HIGH
+server listening on 187.72.213.89 port 61476,server listening on ip_addr port_num,2025-04-14 09:22:57,random_server,0,NORMAL,[],0,0.13,False,NORMAL
+accepted password for user ubuntu from 216.169.0.84 port 60236 ssh2,accepted password for user ubuntu from ip_addr port_num ssh2,2025-04-14 09:23:14,random_server,0,NORMAL,[],0,0.29,False,NORMAL
+pam_unix sshd session session opened for user ubuntu,pam_unix sshd session session opened for user ubuntu,2025-04-14 09:45:39,random_server,0,NORMAL,[],0,0.06,False,NORMAL
+sshd server rekeying after key bytes,sshd server rekeying after key bytes,2025-04-14 09:51:48,random_server,0,NORMAL,[],0,0.01,False,NORMAL
+unauthorized privilege escalation attempt uid from 194.140.24.72 port 52484,unauthorized privilege escalation attempt uid from ip_addr port_num,2025-04-14 10:13:40,random_server,32,MEDIUM,"['unauthorized', 'privilege escalation']",0,0.24,True,HIGH
+illegal login attempt user root from 74.76.127.249 port 57859 preauth,illegal login attempt user root from ip_addr port_num preauth,2025-04-14 10:00:12,random_server,16,MEDIUM,['illegal'],0,0.38,True,HIGH
+service started successfully systemd pid,service started successfully systemd pid,2025-04-14 10:24:06,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+abort reconnect to 162.204.104.185 port 51792 failed retrying,abort reconnect to ip_addr port_num failed retrying,2025-04-14 10:22:08,random_server,18,MEDIUM,"['failed', 'abort', 'retry']",1,0.68,True,LOW
+failed password for root from 106.230.70.165 port 58530 ssh2,failed password for root from ip_addr port_num ssh2,2025-04-14 09:19:17,random_server,10,LOW,['failed'],1,0.81,True,MEDIUM
+session closed for user ubuntu,session closed for user ubuntu,2025-04-14 09:42:00,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+server listening on 77.130.133.104 port 56972,server listening on ip_addr port_num,2025-04-14 10:00:40,random_server,0,NORMAL,[],0,0.13,False,NORMAL
+break-in attempt detected from 143.201.61.43 hostname failed dns lookup,break in attempt detected from ip_addr hostname failed dns lookup,2025-04-14 09:35:16,random_server,10,LOW,['failed'],1,0.7,True,HIGH
+denied connection from 129.254.112.116 port 60058 blacklisted host,denied connection from ip_addr port_num blacklisted host,2025-04-14 09:58:54,random_server,20,MEDIUM,"['denied', 'blacklisted']",0,0.18,True,MEDIUM
+new session opened for user ubuntu by loginuid,new session opened for user ubuntu by loginuid,2025-04-14 09:48:34,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+sshd server rekeying after key bytes,sshd server rekeying after key bytes,2025-04-14 10:12:50,random_server,0,NORMAL,[],0,0.01,False,NORMAL
+cron pam_unix session opened for user root,cron pam_unix session opened for user root,2025-04-14 10:08:48,random_server,0,NORMAL,[],0,0.09,False,NORMAL
+attack detected multiple failed logins from 54.192.138.87 port 51185 exceeded threshold,attack detected multiple failed logins from ip_addr port_num exceeded threshold,2025-04-14 09:43:39,random_server,36,MEDIUM,"['attack', 'failed', 'exceeded']",1,0.61,True,HIGH
+denied connection from 148.184.64.176 port 56228 blacklisted host,denied connection from ip_addr port_num blacklisted host,2025-04-14 09:44:06,random_server,20,MEDIUM,"['denied', 'blacklisted']",0,0.18,True,MEDIUM
+unknown service request from 230.127.196.103 port 63761 dropping,unknown service request from ip_addr port_num dropping,2025-04-14 09:47:51,random_server,8,NORMAL,"['unknown', 'dropping']",0,0.27,True,LOW
+possible break-in attempt reverse mapping checking getaddrinfo for host-91.example.com 218.11.65.9 failed,possible break in attempt reverse mapping checking getaddrinfo for host 91 example com ip_addr failed,2025-04-14 10:36:40,random_server,10,LOW,['failed'],1,0.94,True,HIGH
+session closed for user ubuntu,session closed for user ubuntu,2025-04-14 10:12:23,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+invalid user wronguser from 219.239.229.64 port 52725,invalid user wronguser from ip_addr port_num,2025-04-14 09:32:18,random_server,14,LOW,"['invalid', 'wrong']",1,1.0,True,MEDIUM
+timeout waiting for response from host-1.example.com 39.55.234.22,timeout waiting for response from host 1 example com ip_addr,2025-04-14 10:43:00,random_server,4,NORMAL,['timeout'],0,0.03,True,LOW
+sshd server rekeying after key bytes,sshd server rekeying after key bytes,2025-04-14 10:26:40,random_server,0,NORMAL,[],0,0.01,False,NORMAL
+failed password for invalid user testuser from 65.223.57.26 port 51457,failed password for invalid user testuser from ip_addr port_num,2025-04-14 10:15:15,random_server,20,MEDIUM,"['failed', 'invalid']",1,0.92,True,MEDIUM
+breach detected new outbound connection 242.98.198.67 after repeated login failures,breach detected new outbound connection ip_addr after repeated login failures,2025-04-14 09:17:40,random_server,26,MEDIUM,"['breach', 'failure']",0,0.12,True,HIGH
+warning possible dns spoofing detected host-83.example.com maps to 3.154.235.72,warning possible dns spoofing detected host 83 example com maps to ip_addr,2025-04-14 09:44:35,random_server,8,NORMAL,"['warning', 'spoofing']",0,0.06,True,LOW
+server listening on 122.120.126.8 port 62646,server listening on ip_addr port_num,2025-04-14 10:31:48,random_server,0,NORMAL,[],0,0.13,False,NORMAL
+unauthorized privilege escalation attempt uid from 79.28.11.50 port 65480,unauthorized privilege escalation attempt uid from ip_addr port_num,2025-04-14 10:32:39,random_server,32,MEDIUM,"['unauthorized', 'privilege escalation']",0,0.24,True,HIGH
+cron pam_unix session opened for user root,cron pam_unix session opened for user root,2025-04-14 09:44:00,random_server,0,NORMAL,[],0,0.09,False,NORMAL
+exception in io handler for connection 127.17.173.184 port 62932,exception in io handler for connection ip_addr port_num,2025-04-14 10:38:03,random_server,4,NORMAL,['exception'],0,0.35,True,LOW
+illegal user admin from 102.101.3.205 port 58723,illegal user admin from ip_addr port_num,2025-04-14 10:18:24,random_server,16,MEDIUM,['illegal'],0,0.42,True,HIGH
+pam_unix sshd auth check pass user unknown,pam_unix sshd auth check pass user unknown,2025-04-14 10:51:07,random_server,14,LOW,"['check pass user unknown', 'unknown']",1,1.0,True,MEDIUM
+failed password for invalid user testuser from 210.99.118.120 port 56408,failed password for invalid user testuser from ip_addr port_num,2025-04-14 10:50:12,random_server,20,MEDIUM,"['failed', 'invalid']",1,0.92,True,MEDIUM
+pam_unix sshd session session opened for user ubuntu,pam_unix sshd session session opened for user ubuntu,2025-04-14 09:40:15,random_server,0,NORMAL,[],0,0.06,False,NORMAL
+accepted publickey for ubuntu from 230.114.248.107 port 51000,accepted publickey for ubuntu from ip_addr port_num,2025-04-14 09:36:44,random_server,0,NORMAL,[],0,0.26,False,NORMAL
+error maximum authentication attempts exceeded for root from 237.201.27.55 port 49926,error maximum authentication attempts exceeded for root from ip_addr port_num,2025-04-14 09:37:03,random_server,20,MEDIUM,"['error', 'exceeded']",1,0.84,True,MEDIUM
+sshd server rekeying after key bytes,sshd server rekeying after key bytes,2025-04-14 10:48:10,random_server,0,NORMAL,[],0,0.01,False,NORMAL
+server listening on 227.160.57.21 port 54579,server listening on ip_addr port_num,2025-04-14 09:43:38,random_server,0,NORMAL,[],0,0.13,False,NORMAL
+new session opened for user ubuntu by loginuid,new session opened for user ubuntu by loginuid,2025-04-14 10:02:00,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+fatal error authentication subsystem crashed connection aborted from 114.86.55.1,fatal error authentication subsystem crashed connection aborted from ip_addr,2025-04-14 09:30:15,random_server,30,MEDIUM,"['fatal', 'error', 'abort']",1,0.67,True,HIGH
+bad packet received from 90.215.63.144 unexpected sequence,bad packet received from ip_addr unexpected sequence,2025-04-14 10:05:04,random_server,4,NORMAL,['bad'],0,0.01,True,LOW
+accepted publickey for ubuntu from 197.158.221.23 port 50766,accepted publickey for ubuntu from ip_addr port_num,2025-04-14 10:22:00,random_server,0,NORMAL,[],0,0.26,False,NORMAL
+error maximum authentication attempts exceeded for root from 51.190.228.50 port 59746,error maximum authentication attempts exceeded for root from ip_addr port_num,2025-04-14 10:57:48,random_server,20,MEDIUM,"['error', 'exceeded']",1,0.84,True,MEDIUM
+service started successfully systemd pid,service started successfully systemd pid,2025-04-14 10:44:10,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+pam_unix sshd auth check pass user unknown,pam_unix sshd auth check pass user unknown,2025-04-14 09:29:24,random_server,14,LOW,"['check pass user unknown', 'unknown']",1,1.0,True,MEDIUM
+possible break-in attempt reverse mapping checking getaddrinfo for host-78.example.com 206.31.131.50 failed,possible break in attempt reverse mapping checking getaddrinfo for host 78 example com ip_addr failed,2025-04-14 10:05:37,random_server,10,LOW,['failed'],1,0.94,True,HIGH
+authentication failure logname uid euid tty ssh rhost 93.139.171.246,authentication failure logname uid euid tty ssh rhost ip_addr,2025-04-14 11:01:36,random_server,20,MEDIUM,"['failure', 'authentication failure']",1,0.96,True,MEDIUM
+sshd server rekeying after key bytes,sshd server rekeying after key bytes,2025-04-14 11:04:42,random_server,0,NORMAL,[],0,0.01,False,NORMAL
+pam_unix sshd auth check pass user unknown,pam_unix sshd auth check pass user unknown,2025-04-14 10:26:40,random_server,14,LOW,"['check pass user unknown', 'unknown']",1,1.0,True,MEDIUM
+refused connection from 184.238.197.203 port 57378 policy violation,refused connection from ip_addr port_num policy violation,2025-04-14 10:29:31,random_server,10,LOW,['refused'],0,0.21,True,MEDIUM
+unknown service request from 34.254.93.3 port 59091 dropping,unknown service request from ip_addr port_num dropping,2025-04-14 11:09:48,random_server,8,NORMAL,"['unknown', 'dropping']",0,0.27,True,LOW
+session closed for user ubuntu,session closed for user ubuntu,2025-04-14 10:13:09,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+connection from 201.40.101.101 port 54392 at timestamp,connection from ip_addr port_num at timestamp,2025-04-14 10:20:24,random_server,0,NORMAL,[],0,0.21,False,NORMAL
+failed password for root from 17.17.246.142 port 59826 ssh2,failed password for root from ip_addr port_num ssh2,2025-04-14 10:23:15,random_server,10,LOW,['failed'],1,0.81,True,MEDIUM
+timeout waiting for response from host-27.example.com 227.53.36.68,timeout waiting for response from host 27 example com ip_addr,2025-04-14 09:36:16,random_server,4,NORMAL,['timeout'],0,0.03,True,LOW
+session closed for user ubuntu,session closed for user ubuntu,2025-04-14 10:22:12,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+pam_unix sshd session session opened for user ubuntu,pam_unix sshd session session opened for user ubuntu,2025-04-14 10:02:06,random_server,0,NORMAL,[],0,0.06,False,NORMAL
+authentication failure logname uid euid tty ssh rhost 146.137.190.66,authentication failure logname uid euid tty ssh rhost ip_addr,2025-04-14 10:28:02,random_server,20,MEDIUM,"['failure', 'authentication failure']",1,0.96,True,MEDIUM
+accepted password for user ubuntu from 64.95.125.61 port 54176 ssh2,accepted password for user ubuntu from ip_addr port_num ssh2,2025-04-14 10:49:40,random_server,0,NORMAL,[],0,0.29,False,NORMAL
+unauthorized sudo attempt by user guest tty ssh from 49.167.33.102,unauthorized sudo attempt by user guest tty ssh from ip_addr,2025-04-14 10:38:42,random_server,16,MEDIUM,['unauthorized'],0,0.26,True,HIGH
+accepted publickey for ubuntu from 135.118.51.168 port 64353,accepted publickey for ubuntu from ip_addr port_num,2025-04-14 09:37:52,random_server,0,NORMAL,[],0,0.26,False,NORMAL
+session closed for user ubuntu,session closed for user ubuntu,2025-04-14 09:28:36,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+warning possible dns spoofing detected host-25.example.com maps to 225.150.119.31,warning possible dns spoofing detected host 25 example com maps to ip_addr,2025-04-14 10:55:12,random_server,8,NORMAL,"['warning', 'spoofing']",0,0.06,True,LOW
+break-in attempt detected from 250.99.38.96 hostname failed dns lookup,break in attempt detected from ip_addr hostname failed dns lookup,2025-04-14 10:56:00,random_server,10,LOW,['failed'],1,0.7,True,HIGH
+unauthorized sudo attempt by user guest tty ssh from 67.3.54.164,unauthorized sudo attempt by user guest tty ssh from ip_addr,2025-04-14 09:29:12,random_server,16,MEDIUM,['unauthorized'],0,0.26,True,HIGH
+unauthorized sudo attempt by user guest tty ssh from 95.174.72.12,unauthorized sudo attempt by user guest tty ssh from ip_addr,2025-04-14 09:29:24,random_server,16,MEDIUM,['unauthorized'],0,0.26,True,HIGH
+sshd server rekeying after key bytes,sshd server rekeying after key bytes,2025-04-14 11:10:44,random_server,0,NORMAL,[],0,0.01,False,NORMAL
+denied connection from 96.94.159.20 port 55817 blacklisted host,denied connection from ip_addr port_num blacklisted host,2025-04-14 11:29:00,random_server,20,MEDIUM,"['denied', 'blacklisted']",0,0.18,True,MEDIUM
+session closed for user ubuntu,session closed for user ubuntu,2025-04-14 11:10:00,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+possible break-in attempt reverse mapping checking getaddrinfo for host-51.example.com 141.79.46.168 failed,possible break in attempt reverse mapping checking getaddrinfo for host 51 example com ip_addr failed,2025-04-14 11:15:54,random_server,10,LOW,['failed'],1,0.94,True,HIGH
+server listening on 70.209.145.171 port 59231,server listening on ip_addr port_num,2025-04-14 09:32:56,random_server,0,NORMAL,[],0,0.13,False,NORMAL
+unauthorized sudo attempt by user guest tty ssh from 80.182.212.107,unauthorized sudo attempt by user guest tty ssh from ip_addr,2025-04-14 10:24:09,random_server,16,MEDIUM,['unauthorized'],0,0.26,True,HIGH
+pam_unix sshd session session opened for user ubuntu,pam_unix sshd session session opened for user ubuntu,2025-04-14 09:25:40,random_server,0,NORMAL,[],0,0.06,False,NORMAL
+connection closed by invalid user wronguser 112.80.216.30 port 52117 preauth,connection closed by invalid user wronguser ip_addr port_num preauth,2025-04-14 10:58:50,random_server,14,LOW,"['invalid', 'wrong']",1,1.0,True,MEDIUM
+attack detected multiple failed logins from 227.186.235.198 port 54478 exceeded threshold,attack detected multiple failed logins from ip_addr port_num exceeded threshold,2025-04-14 09:26:00,random_server,36,MEDIUM,"['attack', 'failed', 'exceeded']",1,0.61,True,HIGH
+service started successfully systemd pid,service started successfully systemd pid,2025-04-14 10:49:54,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+illegal user admin from 44.74.178.73 port 54454,illegal user admin from ip_addr port_num,2025-04-14 09:52:40,random_server,16,MEDIUM,['illegal'],0,0.42,True,HIGH
+refused connection from 237.34.55.99 port 65225 policy violation,refused connection from ip_addr port_num policy violation,2025-04-14 11:39:00,random_server,10,LOW,['refused'],0,0.21,True,MEDIUM
+connection from 248.101.154.33 port 50577 at timestamp,connection from ip_addr port_num at timestamp,2025-04-14 10:20:00,random_server,0,NORMAL,[],0,0.21,False,NORMAL
+cron pam_unix session opened for user root,cron pam_unix session opened for user root,2025-04-14 11:41:00,random_server,0,NORMAL,[],0,0.09,False,NORMAL
+new session opened for user ubuntu by loginuid,new session opened for user ubuntu by loginuid,2025-04-14 09:56:42,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+pam_unix sshd session session opened for user ubuntu,pam_unix sshd session session opened for user ubuntu,2025-04-14 10:26:56,random_server,0,NORMAL,[],0,0.06,False,NORMAL
+cron pam_unix session opened for user root,cron pam_unix session opened for user root,2025-04-14 11:03:00,random_server,0,NORMAL,[],0,0.09,False,NORMAL
+accepted password for user ubuntu from 216.19.165.31 port 61926 ssh2,accepted password for user ubuntu from ip_addr port_num ssh2,2025-04-14 10:47:15,random_server,0,NORMAL,[],0,0.29,False,NORMAL
+accepted publickey for ubuntu from 141.156.215.79 port 57319,accepted publickey for ubuntu from ip_addr port_num,2025-04-14 10:34:04,random_server,0,NORMAL,[],0,0.26,False,NORMAL
+cron pam_unix session opened for user root,cron pam_unix session opened for user root,2025-04-14 09:30:37,random_server,0,NORMAL,[],0,0.09,False,NORMAL
+error maximum authentication attempts exceeded for root from 1.250.238.61 port 63793,error maximum authentication attempts exceeded for root from ip_addr port_num,2025-04-14 11:17:12,random_server,20,MEDIUM,"['error', 'exceeded']",1,0.84,True,MEDIUM
+illegal user admin from 200.234.91.208 port 64658,illegal user admin from ip_addr port_num,2025-04-14 09:45:04,random_server,16,MEDIUM,['illegal'],0,0.42,True,HIGH
+accepted password for user ubuntu from 18.65.183.111 port 61123 ssh2,accepted password for user ubuntu from ip_addr port_num ssh2,2025-04-14 10:47:40,random_server,0,NORMAL,[],0,0.29,False,NORMAL
+breach detected new outbound connection 130.20.20.163 after repeated login failures,breach detected new outbound connection ip_addr after repeated login failures,2025-04-14 11:39:36,random_server,26,MEDIUM,"['breach', 'failure']",0,0.12,True,HIGH
+exception in io handler for connection 81.40.27.193 port 61533,exception in io handler for connection ip_addr port_num,2025-04-14 11:52:00,random_server,4,NORMAL,['exception'],0,0.35,True,LOW
+cron pam_unix session opened for user root,cron pam_unix session opened for user root,2025-04-14 09:51:54,random_server,0,NORMAL,[],0,0.09,False,NORMAL
+fatal error authentication subsystem crashed connection aborted from 252.251.147.245,fatal error authentication subsystem crashed connection aborted from ip_addr,2025-04-14 11:54:00,random_server,30,MEDIUM,"['fatal', 'error', 'abort']",1,0.67,True,HIGH
+invalid user wronguser from 185.113.33.214 port 60650,invalid user wronguser from ip_addr port_num,2025-04-14 11:49:10,random_server,14,LOW,"['invalid', 'wrong']",1,1.0,True,MEDIUM
+illegal login attempt user root from 65.81.165.230 port 58162 preauth,illegal login attempt user root from ip_addr port_num preauth,2025-04-14 09:55:44,random_server,16,MEDIUM,['illegal'],0,0.38,True,HIGH
+warning possible dns spoofing detected host-79.example.com maps to 66.245.106.152,warning possible dns spoofing detected host 79 example com maps to ip_addr,2025-04-14 11:03:54,random_server,8,NORMAL,"['warning', 'spoofing']",0,0.06,True,LOW
+abort reconnect to 61.163.190.10 port 55670 failed retrying,abort reconnect to ip_addr port_num failed retrying,2025-04-14 10:43:50,random_server,18,MEDIUM,"['failed', 'abort', 'retry']",1,0.68,True,LOW
+unauthorized access attempt to restricted file etc shadow from 42.142.167.230,unauthorized access attempt to restricted file etc shadow from ip_addr,2025-04-14 11:59:00,random_server,16,MEDIUM,['unauthorized'],0,0.03,True,HIGH
+unauthorized privilege escalation attempt uid from 201.135.58.197 port 50743,unauthorized privilege escalation attempt uid from ip_addr port_num,2025-04-14 10:39:00,random_server,32,MEDIUM,"['unauthorized', 'privilege escalation']",0,0.24,True,HIGH
+connection closed by invalid user wronguser 248.231.53.65 port 62070 preauth,connection closed by invalid user wronguser ip_addr port_num preauth,2025-04-14 10:39:33,random_server,14,LOW,"['invalid', 'wrong']",1,1.0,True,MEDIUM
+connection from 68.192.188.148 port 53942 at timestamp,connection from ip_addr port_num at timestamp,2025-04-14 10:34:02,random_server,0,NORMAL,[],0,0.21,False,NORMAL
+attack detected multiple failed logins from 196.41.226.59 port 54943 exceeded threshold,attack detected multiple failed logins from ip_addr port_num exceeded threshold,2025-04-14 11:53:51,random_server,36,MEDIUM,"['attack', 'failed', 'exceeded']",1,0.61,True,HIGH
+connection from 246.24.151.210 port 57463 at timestamp,connection from ip_addr port_num at timestamp,2025-04-14 11:33:20,random_server,0,NORMAL,[],0,0.21,False,NORMAL
+abort reconnect to 248.160.0.192 port 50259 failed retrying,abort reconnect to ip_addr port_num failed retrying,2025-04-14 09:58:35,random_server,18,MEDIUM,"['failed', 'abort', 'retry']",1,0.68,True,LOW
+attack detected multiple failed logins from 75.221.213.132 port 61082 exceeded threshold,attack detected multiple failed logins from ip_addr port_num exceeded threshold,2025-04-14 09:55:48,random_server,36,MEDIUM,"['attack', 'failed', 'exceeded']",1,0.61,True,HIGH
+pam_unix sshd session session opened for user ubuntu,pam_unix sshd session session opened for user ubuntu,2025-04-14 11:23:22,random_server,0,NORMAL,[],0,0.06,False,NORMAL
+break-in attempt detected from 91.155.54.134 hostname failed dns lookup,break in attempt detected from ip_addr hostname failed dns lookup,2025-04-14 10:15:12,random_server,10,LOW,['failed'],1,0.7,True,HIGH
+unauthorized access attempt to restricted file etc shadow from 106.154.68.53,unauthorized access attempt to restricted file etc shadow from ip_addr,2025-04-14 11:06:00,random_server,16,MEDIUM,['unauthorized'],0,0.03,True,HIGH
+session closed for user ubuntu,session closed for user ubuntu,2025-04-14 10:00:10,random_server,0,NORMAL,[],0,0.0,False,NORMAL
+warning possible dns spoofing detected host-86.example.com maps to 116.49.32.164,warning possible dns spoofing detected host 86 example com maps to ip_addr,2025-04-14 12:11:00,random_server,8,NORMAL,"['warning', 'spoofing']",0,0.06,True,LOW
+break-in attempt detected from 70.205.135.248 hostname failed dns lookup,break in attempt detected from ip_addr hostname failed dns lookup,2025-04-14 11:43:12,random_server,10,LOW,['failed'],1,0.7,True,HIGH
+authentication failure logname uid euid tty ssh rhost 211.179.227.155,authentication failure logname uid euid tty ssh rhost ip_addr,2025-04-14 10:04:20,random_server,20,MEDIUM,"['failure', 'authentication failure']",1,0.96,True,MEDIUM
