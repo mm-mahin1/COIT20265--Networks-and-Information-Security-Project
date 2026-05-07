@@ -1,0 +1,178 @@
+import os
+import json
+import gzip
+import base64
+import boto3
+import urllib.request
+import urllib.error
+
+sns = boto3.client("sns")
+
+SNS_TOPIC_ARN = os.environ["SNS_TOPIC_ARN"]
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+
+SCORE_THRESHOLD = 11.8
+
+
+def lambda_handler(event, context):
+    print("Lambda triggered by CloudWatch Logs")
+
+    compressed_payload = base64.b64decode(event["awslogs"]["data"])
+    uncompressed_payload = gzip.decompress(compressed_payload)
+    cloudwatch_data = json.loads(uncompressed_payload)
+
+    processed_count = 0
+    ignored_count = 0
+
+    for log_event in cloudwatch_data.get("logEvents", []):
+        message = log_event.get("message", "").strip()
+
+        try:
+            alert = json.loads(message)
+
+            print("Parsed JSON alert:")
+            print(json.dumps(alert, indent=2))
+
+            score = float(alert.get("score", 0))
+
+            if score > SCORE_THRESHOLD:
+                print(f"Alert accepted. Score {score} is greater than {SCORE_THRESHOLD}")
+
+                ai_recommendation = get_openai_recommendation(alert)
+                send_sns_email(alert, ai_recommendation)
+
+                processed_count += 1
+
+            else:
+                print(f"Alert ignored. Score {score} is not greater than {SCORE_THRESHOLD}")
+                ignored_count += 1
+
+        except json.JSONDecodeError as e:
+            print("Message was not valid JSON")
+            print(str(e))
+
+        except Exception as e:
+            print("Error while processing log event")
+            print(str(e))
+
+    return {
+        "statusCode": 200,
+        "body": json.dumps({
+            "processed_alerts": processed_count,
+            "ignored_alerts": ignored_count,
+            "threshold": SCORE_THRESHOLD
+        })
+    }
+
+
+def get_openai_recommendation(alert):
+    prompt = f"""
+You are a cybersecurity incident response assistant.
+
+A LogBERT-based anomaly detection system detected a severe cloud log anomaly.
+
+Alert details:
+{json.dumps(alert, indent=2)}
+
+Write a practical response for a system administrator.
+
+Include:
+1. Short summary of what may be happening
+2. Why this is suspicious
+3. Immediate investigation steps
+4. Prevention steps
+5. AWS-specific checks or actions
+6. Final severity judgement
+
+Keep it clear and suitable for an email alert.
+"""
+
+    payload = {
+        "model": "gpt-4.1-mini",
+        "input": prompt
+    }
+
+    request = urllib.request.Request(
+        url="https://api.openai.com/v1/responses",
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {OPENAI_API_KEY}"
+        },
+        method="POST"
+    )
+
+    try:
+        with urllib.request.urlopen(request, timeout=30) as response:
+            result = json.loads(response.read().decode("utf-8"))
+
+        return extract_openai_text(result)
+
+    except urllib.error.HTTPError as e:
+        error_body = e.read().decode("utf-8")
+        print("OpenAI HTTP error:")
+        print(error_body)
+        return f"OpenAI API error: {error_body}"
+
+    except Exception as e:
+        print("OpenAI request failed:")
+        print(str(e))
+        return f"OpenAI request failed: {str(e)}"
+
+
+def extract_openai_text(result):
+    if result.get("output_text"):
+        return result["output_text"]
+
+    texts = []
+
+    for item in result.get("output", []):
+        for content in item.get("content", []):
+            if content.get("type") in ["output_text", "text"]:
+                texts.append(content.get("text", ""))
+
+    return "\n".join(texts).strip() or "No OpenAI recommendation text returned."
+
+
+def send_sns_email(alert, ai_recommendation):
+    subject = f"LogBERT Severe Alert - Score {alert.get('score')}"
+
+    message = f"""
+LOGBERT SEVERE SECURITY ALERT
+
+Alert Level:
+{alert.get("alert_level")}
+
+Alert Type:
+{alert.get("alert_type")}
+
+Anomaly Score:
+{alert.get("score")}
+
+Alert Threshold:
+Only alerts with score greater than {SCORE_THRESHOLD} are emailed.
+
+Affected Lines:
+{alert.get("lines")}
+
+Reason:
+{alert.get("reason")}
+
+Sample Logs:
+{json.dumps(alert.get("sample_logs", []), indent=2)}
+
+AI Recommended Response and Prevention Steps:
+{ai_recommendation}
+
+Recommended Admin Action:
+Review the EC2 instance, CloudWatch logs, SSH/authentication logs, application logs, security groups, IAM activity, and recent access behaviour.
+"""
+
+    response = sns.publish(
+        TopicArn=SNS_TOPIC_ARN,
+        Subject=subject[:100],
+        Message=message
+    )
+
+    print("SNS publish response:")
+    print(json.dumps(response, default=str))

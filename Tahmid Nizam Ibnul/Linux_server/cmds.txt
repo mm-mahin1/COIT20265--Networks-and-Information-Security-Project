@@ -1,0 +1,28 @@
+ssh -i "C:\ec2key\logbert-key.pem" ubuntu@3.106.123.5
+
+
+[Go to log folder]
+cd ~/logs
+
+[generating logs into app.log into /home/ubuntu/logs/app.log]
+python3 generate_custom_logs.py
+
+
+Ctrl + C
+
+[LogBERT project folder]
+cd ~/logbert_project
+
+[activate venv]
+source venv/bin/activate
+
+[run logbert]
+python ~/logbert_project/scripts/logbert_checker_cloudLogs.py
+
+
+[see the latest generated logs]
+tail -n 20 /home/ubuntu/logs/app.log
+
+
+[see the anomaly output file]
+tail -n 20 /home/ubuntu/logbert_project/output/anomaly_results.log
