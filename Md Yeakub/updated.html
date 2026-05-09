@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LogGuard AI — NLP-Based Log Anomaly Detection</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0a0f1e;
+    --navy2:  #0f1629;
+    --navy3:  #141d35;
+    --blue:   #2563eb;
+    --blue2:  #3b82f6;
+    --cyan:   #06b6d4;
+    --green:  #10b981;
+    --red:    #ef4444;
+    --orange: #f59e0b;
+    --white:  #f8fafc;
+    --muted:  #94a3b8;
+    --border: rgba(255,255,255,0.07);
+    --card:   rgba(255,255,255,0.04);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--navy); color: var(--white); line-height: 1.6; overflow-x: hidden; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--navy); }
+  ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 2px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 4rem;
+    background: rgba(10,15,30,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--white); display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-dot { width: 10px; height: 10px; background: var(--blue2); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.5); } 50% { box-shadow: 0 0 0 8px rgba(59,130,246,0); } }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-btn { padding: 0.5rem 1.2rem; background: var(--blue); color: var(--white); border: none; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-block; }
+  .nav-btn:hover { background: var(--blue2); transform: translateY(-1px); }
+  .nav-btn-ghost { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); }
+  .nav-btn-ghost:hover { background: rgba(255,255,255,0.15); }
+
+  /* HERO */
+  #hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 8rem 4rem 4rem; position: relative; overflow: hidden; }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(37,99,235,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.05) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); }
+  .hero-glow { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%); pointer-events: none; }
+  .hero-inner { max-width: 860px; text-align: center; position: relative; z-index: 1; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 0.35rem 1rem; background: rgba(37,99,235,0.12); border: 1px solid rgba(37,99,235,0.3); border-radius: 100px; font-size: 0.8rem; font-weight: 500; color: var(--blue2); margin-bottom: 2rem; animation: fadeUp 0.6s ease both; }
+  .badge-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+  h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; animation: fadeUp 0.6s 0.1s ease both; }
+  h1 span { color: var(--blue2); }
+  .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 600px; margin: 0 auto 2.5rem; animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+  .btn-primary { padding: 0.8rem 2rem; background: var(--blue); color: white; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--blue2); transform: translateY(-2px); }
+  .btn-outline { padding: 0.8rem 2rem; background: transparent; color: var(--white); border: 1px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* LOG TICKER */
+  .log-ticker { margin-top: 4rem; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; animation: fadeUp 0.6s 0.4s ease both; }
+  .log-ticker-header { display: flex; align-items: center; gap: 8px; padding: 0.6rem 1rem; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+  .dot-red { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+  .dot-amber { width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e; }
+  .dot-green { width: 10px; height: 10px; border-radius: 50%; background: #28c840; }
+  #log-feed { height: 140px; overflow: hidden; padding: 0.75rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; }
+  .log-line { display: flex; gap: 0.75rem; padding: 2px 0; animation: slideIn 0.3s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+  .log-ts { color: #64748b; flex-shrink: 0; }
+  .log-host { color: var(--cyan); flex-shrink: 0; }
+  .log-svc { color: var(--orange); flex-shrink: 0; }
+  .log-msg { color: #e2e8f0; }
+  .log-msg.anomaly { color: var(--red); }
+  .log-msg.warn { color: var(--orange); }
+
+  /* SECTIONS */
+  section { padding: 5rem 4rem; max-width: 1200px; margin: 0 auto; }
+  .section-label { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue2); margin-bottom: 1rem; }
+  h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+  .section-desc { font-size: 1.05rem; color: var(--muted); max-width: 600px; margin-bottom: 3rem; }
+
+  /* WHY LOGBERT */
+  #why { padding: 5rem 4rem; max-width: 1200px; margin: 0 auto; }
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .why-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; cursor: pointer; transition: all 0.25s; }
+  .why-card:hover { border-color: rgba(37,99,235,0.4); background: rgba(37,99,235,0.06); transform: translateY(-3px); }
+  .why-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(37,99,235,0.15); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1rem; }
+  .why-card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .why-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+  /* COMPONENTS */
+  #components { padding: 5rem 4rem; max-width: 1200px; margin: 0 auto; }
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .comp-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; text-align: center; cursor: pointer; transition: all 0.2s; }
+  .comp-card:hover { border-color: rgba(6,182,212,0.4); transform: translateY(-2px); }
+  .comp-icon { font-size: 1.8rem; margin-bottom: 0.75rem; display: block; }
+  .comp-name { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.25rem; }
+  .comp-desc { font-size: 0.78rem; color: var(--muted); }
+  .comp-badge { display: inline-block; margin-top: 0.5rem; padding: 0.2rem 0.6rem; border-radius: 100px; font-size: 0.7rem; font-weight: 600; }
+  .badge-aws   { background: rgba(245,158,11,0.15); color: #f59e0b; }
+  .badge-ml    { background: rgba(37,99,235,0.15); color: var(--blue2); }
+  .badge-ui    { background: rgba(16,185,129,0.15); color: var(--green); }
+  .badge-alert { background: rgba(239,68,68,0.15); color: var(--red); }
+
+  /* DEMO */
+  #demo { padding: 5rem 4rem; max-width: 1200px; margin: 0 auto; }
+  .demo-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+  .demo-header { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.5rem; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--border); }
+  .demo-thumb { height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; text-align: center; padding: 2rem; background: repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 30px); }
+  .play-btn { width: 72px; height: 72px; border-radius: 50%; background: var(--blue); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.2s; box-shadow: 0 0 0 12px rgba(37,99,235,0.1); }
+  .play-btn:hover { transform: scale(1.08); box-shadow: 0 0 0 16px rgba(37,99,235,0.15); }
+
+  /* TEAM */
+  #team { padding: 5rem 4rem; max-width: 1200px; margin: 0 auto; }
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; }
+  .team-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.75rem; text-align: center; cursor: pointer; transition: all 0.25s; }
+  .team-card:hover { border-color: rgba(37,99,235,0.3); transform: translateY(-3px); }
+  .avatar { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; }
+  .av-blue   { background: rgba(37,99,235,0.2);  color: var(--blue2); }
+  .av-cyan   { background: rgba(6,182,212,0.2);  color: var(--cyan); }
+  .av-green  { background: rgba(16,185,129,0.2); color: var(--green); }
+  .av-orange { background: rgba(245,158,11,0.2); color: var(--orange); }
+  .team-name { font-weight: 600; margin-bottom: 0.25rem; }
+  .team-role { font-size: 0.8rem; color: var(--blue2); margin-bottom: 0.5rem; }
+  .team-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+  /* MONITOR */
+  #monitor { padding: 5rem 4rem; max-width: 1200px; margin: 0 auto; }
+  .monitor-box { background: #000; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .monitor-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; background: #111; border-bottom: 1px solid #222; }
+  .monitor-title { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: #666; }
+  .monitor-status { display: flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--green); }
+  .status-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+  #monitor-feed { height: 220px; overflow-y: auto; padding: 1rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; }
+  .monitor-line { display: flex; gap: 1rem; padding: 3px 0; animation: slideIn 0.2s ease; }
+  .ml-ts   { color: #444; flex-shrink: 0; min-width: 200px; }
+  .ml-host { color: #0891b2; flex-shrink: 0; }
+  .ml-svc  { color: #d97706; flex-shrink: 0; }
+  .ml-msg  { color: #9ca3af; word-break: break-all; }
+  .ml-msg.anom { color: #f87171; }
+  .ml-msg.warn { color: #fbbf24; }
+  .ml-msg.ok   { color: #34d399; }
+  .clear-btn { padding: 0.4rem 1rem; background: transparent; border: 1px solid #333; border-radius: 6px; color: #666; font-size: 0.75rem; cursor: pointer; font-family: 'DM Mono', monospace; transition: all 0.2s; }
+  .clear-btn:hover { border-color: #555; color: #999; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem; color: var(--muted); flex-wrap: wrap; gap: 1rem; }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--white); }
+
+  /* TOAST */
+  #toast-container { position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 999; pointer-events: none; }
+  .toast { padding: 0.6rem 1rem; background: rgba(15,22,41,0.95); border: 1px solid var(--border); border-left: 3px solid var(--green); border-radius: 8px; font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); animation: toastIn 0.3s ease; pointer-events: none; max-width: 400px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .toast.anomaly { border-left-color: var(--red); }
+  .toast.warn { border-left-color: var(--orange); }
+  @keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+  @media(max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section, #why, #components, #demo, #team, #monitor { padding: 3rem 1.5rem; }
+    footer { padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="logo" onclick="logEvent('nav','logo-click','User clicked LogGuard logo')">
+    <div class="logo-dot"></div>
+    LogGuard AI
+  </a>
+  <ul class="nav-links">
+    <li><a href="#algorithm" onclick="logEvent('nav','algorithm-link','User navigated to Algorithm section')">Algorithm</a></li>
+    <li><a href="#why"       onclick="logEvent('nav','why-link','User navigated to Why LogBERT section')">Why LogBERT</a></li>
+    <li><a href="#components" onclick="logEvent('nav','components-link','User navigated to Components section')">Components</a></li>
+    <li><a href="#team"      onclick="logEvent('nav','team-link','User navigated to Team section')">Team</a></li>
+    <li><a href="#monitor"   onclick="logEvent('nav','monitor-link','User navigated to Log Monitor section')">Live Logs</a></li>
+  </ul>
+  <div style="display:flex;gap:0.5rem">
+    <a href="#demo"  class="nav-btn" onclick="logEvent('nav','demo-btn','User clicked View Demo button in navbar')">View Demo</a>
+    <a href="#login" class="nav-btn nav-btn-ghost" onclick="logEvent('nav','login-btn','User clicked Login button in navbar')">Login</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      COIT20265 · CQUniversity Australia · Dr Fariza Sabrina
+    </div>
+    <h1>NLP-Based<br><span>Log Anomaly</span><br>Detection</h1>
+    <p class="hero-sub">An intelligent prototype that reads raw cybersecurity logs as text, uses deep learning to detect anomalous activity, and sends real-time alerts to security administrators.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="logEvent('hero','explore-btn','User clicked Explore System button'); document.getElementById('algorithm').scrollIntoView({behavior:'smooth'})">Explore the System</button>
+      <button class="btn-outline" onclick="logEvent('hero','monitor-btn','User clicked Live Logs button'); document.getElementById('monitor').scrollIntoView({behavior:'smooth'})">See Live Logs</button>
+    </div>
+    <div class="log-ticker">
+      <div class="log-ticker-header">
+        <div class="dot-red"></div><div class="dot-amber"></div><div class="dot-green"></div>
+        <span style="margin-left:0.5rem">cloud_logs_merged_all.log — live stream</span>
+      </div>
+      <div id="log-feed"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ALGORITHM -->
+<section id="algorithm">
+  <div class="section-label">Model Comparison</div>
+  <h2 style="font-size:2.5rem;font-weight:800">Algorithms Used</h2>
+  <p class="section-desc">Four algorithms were trained and evaluated on the same dataset of 7,254 cybersecurity logs.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem">
+
+    <!-- Random Forest -->
+    <div onclick="logEvent('algorithm','rf-card','User clicked Random Forest card')"
+         style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;cursor:pointer;transition:all 0.25s"
+         onmouseover="this.style.borderColor='rgba(37,99,235,0.5)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+      <div style="font-size:2rem;margin-bottom:0.75rem">🌲</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;color:var(--white)">Random Forest</h3>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem">TF-IDF vectorisation + Random Forest classifier. Baseline model trained on bag-of-words features.</p>
+      <div style="display:flex;flex-direction:column;gap:0.75rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">F1-Score</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#10b981;font-weight:600">0.9971</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">Precision</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#10b981;font-weight:600">1.0000</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">Recall</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#10b981;font-weight:600">0.9942</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0"><span style="font-size:0.85rem;color:var(--muted)">ROC-AUC</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#10b981;font-weight:600">1.0000</span></div>
+      </div>
+    </div>
+
+    <!-- Isolation Forest -->
+    <div onclick="logEvent('algorithm','if-card','User clicked Isolation Forest card')"
+         style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;cursor:pointer;transition:all 0.25s"
+         onmouseover="this.style.borderColor='rgba(245,158,11,0.5)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+      <div style="font-size:2rem;margin-bottom:0.75rem">🔵</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;color:var(--white)">Isolation Forest</h3>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem">Unsupervised anomaly detection. Isolates anomalies by random feature splitting without requiring labels.</p>
+      <div style="display:flex;flex-direction:column;gap:0.75rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">Normal Logs</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#f59e0b;font-weight:600">114,535</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">Anomaly Logs</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#f59e0b;font-weight:600">5,465</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">Mean Score</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#f59e0b;font-weight:600">0.4253</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">Min Score</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#f59e0b;font-weight:600">0.3551</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0"><span style="font-size:0.85rem;color:var(--muted)">Max Score</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#f59e0b;font-weight:600">0.6880</span></div>
+      </div>
+    </div>
+
+    <!-- LogBERT -->
+    <div onclick="logEvent('algorithm','logbert-card','User clicked LogBERT card')"
+         style="background:var(--card);border:1px solid rgba(37,99,235,0.3);border-radius:16px;padding:2rem;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden"
+         onmouseover="this.style.borderColor='rgba(37,99,235,0.7)'" onmouseout="this.style.borderColor='rgba(37,99,235,0.3)'">
+      <div style="position:absolute;top:1rem;right:1rem;background:rgba(37,99,235,0.15);border:1px solid rgba(37,99,235,0.3);border-radius:100px;padding:0.2rem 0.7rem;font-size:0.7rem;color:var(--blue2);font-weight:600">PRIMARY MODEL</div>
+      <div style="font-size:2rem;margin-bottom:0.75rem">🤖</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;color:var(--white)">LogBERT</h3>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem">BERT-based language model pre-trained on log data. Understands contextual patterns across log sequences.</p>
+      <div style="display:flex;flex-direction:column;gap:0.75rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">Vocab Size</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#3b82f6;font-weight:600">50,003</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">Train Samples</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#3b82f6;font-weight:600">39,998</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">Test Samples</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#3b82f6;font-weight:600">10,000</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0"><span style="font-size:0.85rem;color:var(--muted)">Avg Test Loss</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#3b82f6;font-weight:600">0.3874</span></div>
+      </div>
+    </div>
+
+    <!-- LSTM -->
+    <div onclick="logEvent('algorithm','lstm-card','User clicked LSTM card')"
+         style="background:var(--card);border:1px solid rgba(16,185,129,0.3);border-radius:16px;padding:2rem;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden"
+         onmouseover="this.style.borderColor='rgba(16,185,129,0.7)'" onmouseout="this.style.borderColor='rgba(16,185,129,0.3)'">
+      <div style="font-size:2rem;margin-bottom:0.75rem">&#x1F501;</div>
+      <h3 style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:0.5rem;color:var(--white)">Bidirectional LSTM</h3>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem">Deep learning sequence model with word embeddings. Reads log text forwards and backwards for full context.</p>
+      <div style="display:flex;flex-direction:column;gap:0.75rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">F1-Score</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#10b981;font-weight:600">0.9987</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">Precision</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#10b981;font-weight:600">0.9974</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)"><span style="font-size:0.85rem;color:var(--muted)">Recall</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#10b981;font-weight:600">1.0000</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0"><span style="font-size:0.85rem;color:var(--muted)">ROC-AUC</span><span style="font-family:'DM Mono',monospace;font-size:0.95rem;color:#10b981;font-weight:600">0.9996</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY LOGBERT -->
+<section id="why" style="background:rgba(255,255,255,0.01);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="section-label">Model selection</div>
+  <h2>Why LogBERT?</h2>
+  <p class="section-desc">Traditional rule-based and statistical methods fail on modern log data. LogBERT understands the language of logs.</p>
+  <div class="why-grid">
+    <div class="why-card" onclick="logEvent('why','context-card','User clicked Context Understanding card')"><div class="why-icon">🧠</div><h4>Contextual Understanding</h4><p>LogBERT reads each log message in context — the same word means something different in different positions. Rule-based systems cannot capture this.</p></div>
+    <div class="why-card" onclick="logEvent('why','sequence-card','User clicked Sequence Awareness card')"><div class="why-icon">🔗</div><h4>Sequence Awareness</h4><p>Anomalies often appear as unusual sequences of normal-looking events. LogBERT detects patterns across consecutive log entries, not just individual lines.</p></div>
+    <div class="why-card" onclick="logEvent('why','nolabels-card','User clicked No Label Dependency card')"><div class="why-icon">🏷️</div><h4>No Label Dependency</h4><p>Keyword-based labeling causes data leakage. LogBERT learns from raw log structure without memorising labeling rules.</p></div>
+    <div class="why-card" onclick="logEvent('why','generalise-card','User clicked Generalisation card')"><div class="why-icon">🌐</div><h4>Real-World Generalisation</h4><p>Pre-trained on billions of tokens, LogBERT transfers knowledge to unseen log formats without retraining from scratch.</p></div>
+    <div class="why-card" onclick="logEvent('why','speed-card','User clicked Speed card')"><div class="why-icon">⚡</div><h4>Production Speed</h4><p>Inference runs in milliseconds per log entry. The AWS Lambda deployment processes a 430-entry CSV in under 2.4 seconds.</p></div>
+    <div class="why-card" onclick="logEvent('why','explainable-card','User clicked Explainability card')"><div class="why-icon">🔍</div><h4>Explainable Outputs</h4><p>Each anomaly detection includes a probability score and matched keywords so administrators understand why a log was flagged.</p></div>
+  </div>
+</section>
+
+<!-- COMPONENTS -->
+<section id="components">
+  <div class="section-label">Architecture</div>
+  <h2>Components &amp; Services</h2>
+  <p class="section-desc">The system is built entirely on AWS serverless infrastructure, with no persistent servers required for detection.</p>
+  <div class="comp-grid">
+    <div class="comp-card" onclick="logEvent('components','ec2-card','User clicked EC2 component card')"><span class="comp-icon">🖥️</span><div class="comp-name">AWS EC2</div><div class="comp-desc">Ubuntu 24.04 LTS server for log generation and dashboard hosting</div><span class="comp-badge badge-aws">AWS</span></div>
+    <div class="comp-card" onclick="logEvent('components','s3-card','User clicked S3 component card')"><span class="comp-icon">🪣</span><div class="comp-name">AWS S3</div><div class="comp-desc">Log CSV storage — input/ and output/ buckets with automatic triggers</div><span class="comp-badge badge-aws">AWS</span></div>
+    <div class="comp-card" onclick="logEvent('components','lambda-card','User clicked Lambda component card')"><span class="comp-icon">λ</span><div class="comp-name">AWS Lambda</div><div class="comp-desc">Serverless anomaly detection — fires automatically on S3 upload</div><span class="comp-badge badge-aws">AWS</span></div>
+    <div class="comp-card" onclick="logEvent('components','cloudwatch-card','User clicked CloudWatch component card')"><span class="comp-icon">📊</span><div class="comp-name">CloudWatch</div><div class="comp-desc">Real-time log ingestion from this website's user event stream</div><span class="comp-badge badge-aws">AWS</span></div>
+    <div class="comp-card" onclick="logEvent('components','sns-card','User clicked SNS component card')"><span class="comp-icon">🔔</span><div class="comp-name">AWS SNS</div><div class="comp-desc">Email alerts — sent when anomaly score exceeds threshold (>9 or >14)</div><span class="comp-badge badge-alert">Alerts</span></div>
+    <div class="comp-card" onclick="logEvent('components','logbert-card','User clicked LogBERT component card')"><span class="comp-icon">🤖</span><div class="comp-name">LogBERT</div><div class="comp-desc">Primary model — BERT pre-trained on log sequences. Avg test loss: 0.3874</div><span class="comp-badge badge-ml">ML</span></div>
+    <div class="comp-card" onclick="logEvent('components','tfidf-card','User clicked TF-IDF component card')"><span class="comp-icon">📐</span><div class="comp-name">TF-IDF + Random Forest</div><div class="comp-desc">Baseline ML model — F1=0.9971, ROC-AUC=1.000 on test set</div><span class="comp-badge badge-ml">ML</span></div>
+    <div class="comp-card" onclick="logEvent('components','streamlit-card','User clicked Streamlit component card')"><span class="comp-icon">📈</span><div class="comp-name">Streamlit Dashboard</div><div class="comp-desc">Live visual interface — anomaly scores, severity charts, alert tables</div><span class="comp-badge badge-ui">UI</span></div>
+    <div class="comp-card" onclick="logEvent('components','python-card','User clicked Python component card')"><span class="comp-icon">🐍</span><div class="comp-name">Python Algorithm</div><div class="comp-desc">anomaly_algorithm.py — 4-layer pipeline connecting ML to AWS</div><span class="comp-badge badge-ml">Core</span></div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section id="demo">
+  <div class="section-label">Demonstration</div>
+  <h2>See It In Action</h2>
+  <p class="section-desc">A walkthrough of the complete pipeline — from raw log upload to email alert.</p>
+  <div class="demo-box">
+    <div class="demo-header"><div class="dot-red"></div><div class="dot-amber"></div><div class="dot-green"></div><span style="margin-left:0.5rem;font-size:0.8rem;color:var(--muted)">LogGuard AI — Demo</span></div>
+    <div class="demo-thumb">
+      <button class="play-btn" onclick="logEvent('demo','play-btn','User clicked Play Demo button')">▶</button>
+      <div><div style="font-size:1rem;color:var(--muted)">Demonstration Video</div><div style="font-size:0.85rem;color:#475569">Coming soon — deployment in progress</div></div>
+      <button class="btn-outline" style="font-size:0.85rem;padding:0.6rem 1.5rem" onclick="logEvent('demo','dashboard-btn','User clicked Open Live Dashboard button'); window.open('http://100.31.56.196:8501','_blank')">Open Live Dashboard →</button>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-label">The team</div>
+  <h2>About the Team</h2>
+  <p class="section-desc">Four members. One NLP-based cybersecurity system.</p>
+  <div class="team-grid">
+    <div class="team-card" onclick="logEvent('team','pm-card','User clicked Project Manager team card')"><div class="avatar av-orange">PM</div><div class="team-name">Tahmid</div><div class="team-role">Project Manager</div><div class="team-desc">Responsible for scheduling, report writing, stakeholder communication, and final demo preparation.</div></div>
+    <div class="team-card" onclick="logEvent('team','mahin-card','User clicked Mahin team card')"><div class="avatar av-blue">M</div><div class="team-name">Mahin</div><div class="team-role">Cloud Engineer</div><div class="team-desc">AWS EC2, S3, Lambda, SNS setup. Python algorithm file. Log generation. Dashboard deployment. This website.</div></div>
+    <div class="team-card" onclick="logEvent('team','se-card','User clicked Software Engineer team card')"><div class="avatar av-cyan">SE</div><div class="team-name">Nafisa Sultana</div><div class="team-role">Software Engineer</div><div class="team-desc">System integration, connecting all components, prototype architecture, and API design.</div></div>
+    <div class="team-card" onclick="logEvent('team','yeakub-card','User clicked Yeakub team card')"><div class="avatar av-green">Y</div><div class="team-name">Yeakub</div><div class="team-role">Data Analyst / NLP Developer</div><div class="team-desc">Data preprocessing, Random Forest baseline, LSTM model training, F1 and ROC-AUC evaluation visualisations.</div></div>
+  </div>
+</section>
+
+<!-- MONITOR -->
+<section id="monitor">
+  <div class="section-label">Real-time</div>
+  <h2>Live Event Log Monitor</h2>
+  <p class="section-desc">Every interaction on this website generates a log entry in the exact format of <code style="font-family:'DM Mono',monospace;font-size:0.85em;color:var(--cyan)">cloud_logs_merged_all.log</code>. These logs are sent to AWS CloudWatch in real time.</p>
+  <div class="monitor-box">
+    <div class="monitor-header">
+      <span class="monitor-title">coit20265-website-events — CloudWatch Log Stream</span>
+      <div style="display:flex;gap:0.75rem;align-items:center">
+        <div class="monitor-status"><div class="status-dot"></div>LIVE</div>
+        <button class="clear-btn" onclick="logEvent('monitor','clear-btn','User cleared the log monitor'); document.getElementById('monitor-feed').innerHTML=''">clear</button>
+      </div>
+    </div>
+    <div id="monitor-feed"><div class="monitor-line"><span class="ml-ts">— waiting for events —</span></div></div>
+  </div>
+  <p style="font-size:0.8rem;color:var(--muted);margin-top:1rem">Click any button or card on this page to generate a log entry above.</p>
+</section>
+
+<!-- LOGIN -->
+<section id="login" style="padding:5rem 4rem;max-width:600px;margin:0 auto">
+  <div class="section-label">Access</div>
+  <h2>Team Login</h2>
+  <p class="section-desc">Sign in to access the system. All login attempts are logged to AWS CloudWatch.</p>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem;margin-top:2rem">
+    <div style="margin-bottom:1.25rem">
+      <label style="display:block;font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;font-weight:500">Username</label>
+      <input id="login-user" type="text" placeholder="Enter username"
+        style="width:100%;padding:0.75rem 1rem;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;color:var(--white);font-size:0.95rem;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box"
+        onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='rgba(255,255,255,0.07)'">
+    </div>
+    <div style="margin-bottom:1.5rem">
+      <label style="display:block;font-size:0.85rem;color:var(--muted);margin-bottom:0.5rem;font-weight:500">Password</label>
+      <input id="login-pass" type="password" placeholder="Enter password"
+        style="width:100%;padding:0.75rem 1rem;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:8px;color:var(--white);font-size:0.95rem;font-family:'DM Sans',sans-serif;outline:none;box-sizing:border-box"
+        onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='rgba(255,255,255,0.07)'"
+        onkeydown="if(event.key==='Enter') doLogin()">
+    </div>
+    <button onclick="doLogin()" style="width:100%;padding:0.85rem;background:#2563eb;color:white;border:none;border-radius:8px;font-size:1rem;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s" onmouseover="this.style.background='#3b82f6'" onmouseout="this.style.background='#2563eb'">Sign In</button>
+    <div id="login-msg" style="margin-top:1rem;padding:0.75rem 1rem;border-radius:8px;font-size:0.9rem;display:none;text-align:center;font-weight:500"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div><strong>LogGuard AI</strong> — COIT20265 · CQUniversity Australia · Dr Fariza Sabrina</div>
+  <div style="display:flex;gap:2rem">
+    <a href="#hero"       onclick="logEvent('footer','hero-link','User clicked Home footer link')">Home</a>
+    <a href="#algorithm"  onclick="logEvent('footer','algo-link','User clicked Algorithm footer link')">Algorithm</a>
+    <a href="#team"       onclick="logEvent('footer','team-link','User clicked Team footer link')">Team</a>
+    <a href="#monitor"    onclick="logEvent('footer','monitor-link','User clicked Live Logs footer link')">Live Logs</a>
+  </div>
+</footer>
+
+<div id="toast-container"></div>
+
+<script>
+// Real Visitor IP ──
+let HOSTNAME = 'ip-unknown';
+fetch('https://api.ipify.org?format=json')
+  .then(r => r.json())
+  .then(data => { HOSTNAME = data.ip; })
+  .catch(() => { HOSTNAME = 'ip-unknown'; });
+
+let PID_COUNTER = 1000;
+
+function getTimestamp() { return new Date().toISOString().replace('Z', '+00:00'); }
+
+function formatLogLine(category, action, message) {
+  const ts = getTimestamp();
+  const pid = PID_COUNTER++;
+  const service = 'website-' + category + '[' + pid + ']:';
+  return ts + ' ' + HOSTNAME + ' ' + service + ' ' + message;
+}
+
+// CloudWatch via Flask 
+async function sendToCloudWatch(logLine) {
+  try {
+    await fetch('/log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: logLine })
+    });
+    console.log('[CloudWatch] Sent:', logLine.slice(0, 80));
+  } catch (err) {
+    console.log('[CloudWatch] Error:', err.message);
+  }
+}
+
+// Main Event Logger 
+function logEvent(category, action, message) {
+  const logLine = formatLogLine(category, action, message);
+  addToMonitor(logLine, message.toLowerCase().includes('fail') ? 'anom' : message.toLowerCase().includes('wrong') ? 'anom' : 'ok');
+  addToTicker(logLine, message.toLowerCase().includes('fail') ? 'anomaly' : 'ok');
+  showToast(logLine, message.toLowerCase().includes('fail') ? 'anomaly' : '');
+  sendToCloudWatch(logLine);
+}
+
+// Monitor Feed ──
+function addToMonitor(logLine, level) {
+  const feed = document.getElementById('monitor-feed');
+  const parts = logLine.split(' ');
+  const ts = parts[0]; const host = parts[1]; const svc = parts[2];
+  const msg = parts.slice(3).join(' ');
+  const line = document.createElement('div');
+  line.className = 'monitor-line';
+  line.innerHTML = '<span class="ml-ts">' + escHtml(ts) + '</span><span class="ml-host">' + escHtml(host) + '</span><span class="ml-svc">' + escHtml(svc) + '</span><span class="ml-msg ' + level + '">' + escHtml(msg) + '</span>';
+  const placeholder = feed.querySelector('.ml-ts');
+  if (placeholder && placeholder.textContent === '— waiting for events —') feed.innerHTML = '';
+  feed.appendChild(line);
+  feed.scrollTop = feed.scrollHeight;
+  while (feed.children.length > 50) feed.removeChild(feed.firstChild);
+}
+
+// Hero Ticker 
+const HERO_TEMPLATES = [
+  { svc:'sshd[1067]', msg:'Accepted publickey for ubuntu from ip_addr port 55948 ssh2', level:'ok' },
+  { svc:'sshd[1068]', msg:'Failed password for root from ip_addr port 55221 ssh2', level:'anomaly' },
+  { svc:'sshd[1069]', msg:'Invalid user admin from ip_addr port 61024', level:'anomaly' },
+  { svc:'CRON[1026]', msg:'pam_unix(cron:session): session opened for user root(uid=0)', level:'ok' },
+  { svc:'systemd[1]', msg:'Started openssh-server.service - OpenBSD Secure Shell server', level:'ok' },
+  { svc:'sudo[1070]', msg:'ubuntu : 3 incorrect password attempts ; TTY=pts/0 ; USER=root', level:'warn' },
+  { svc:'sshd[1071]', msg:'Connection closed by invalid user wronguser ip_addr port 61480', level:'anomaly' },
+  { svc:'systemd-logind[616]', msg:'New session 6 of user ubuntu.', level:'ok' },
+];
+let tickerIdx = 0;
+
+function appendTickerLine(logLine, level) {
+  const feed = document.getElementById('log-feed');
+  const parts = logLine.split(' ');
+  const ts = parts[0].slice(0,19).replace('T',' ');
+  const host = parts[1]; const svc = parts[2];
+  const msg = parts.slice(3).join(' ').slice(0,80);
+  const line = document.createElement('div');
+  line.className = 'log-line';
+  line.innerHTML = '<span class="log-ts">' + escHtml(ts) + '</span><span class="log-host">' + escHtml(host) + '</span><span class="log-svc">' + escHtml(svc) + '</span><span class="log-msg ' + level + '">' + escHtml(msg) + '</span>';
+  feed.appendChild(line);
+  feed.scrollTop = feed.scrollHeight;
+  while (feed.children.length > 6) feed.removeChild(feed.firstChild);
+}
+
+function addToTicker(logLine, level) { appendTickerLine(logLine, level); }
+
+function streamBackground() {
+  const t = HERO_TEMPLATES[tickerIdx % HERO_TEMPLATES.length];
+  const ts = getTimestamp();
+  const logLine = ts + ' ' + HOSTNAME + ' ' + t.svc + ': ' + t.msg;
+  appendTickerLine(logLine, t.level);
+  tickerIdx++;
+}
+setInterval(streamBackground, 1800);
+streamBackground();
+
+// Toast 
+function showToast(logLine, level) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + level;
+  toast.textContent = logLine.slice(0,80) + (logLine.length > 80 ? '…' : '');
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity='0'; toast.style.transition='opacity 0.3s'; }, 2500);
+  setTimeout(() => { if(toast.parentNode) container.removeChild(toast); }, 2800);
+  while (container.children.length > 4) container.removeChild(container.firstChild);
+}
+
+// Login 
+const VALID_USERS = [
+  {u:'admin',  p:'1234'},
+  {u:'mahin',  p:'1111'},
+  {u:'yeakub', p:'1234'},
+  {u:'team',   p:'1111'},
+  {u:'tahmid', p:'1234'},
+  {u:'nafisa', p:'1111'},
+];
+function doLogin() {
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value.trim();
+  const msg = document.getElementById('login-msg');
+  if (!u || !p) {
+    msg.style.display='block'; msg.style.background='rgba(239,68,68,0.1)'; msg.style.border='1px solid rgba(239,68,68,0.3)'; msg.style.color='#ef4444';
+    msg.textContent='Please enter both username and password.'; return;
+  }
+  const ok = VALID_USERS.some(c => c.u===u.toLowerCase() && c.p===p);
+  if (ok) {
+    msg.style.display='block'; msg.style.background='rgba(16,185,129,0.1)'; msg.style.border='1px solid rgba(16,185,129,0.3)'; msg.style.color='#10b981';
+    msg.textContent='Successful Login — Welcome, ' + u + '!';
+    logEvent('login','login-success','Successful login by user: ' + u);
+  } else {
+    msg.style.display='block'; msg.style.background='rgba(239,68,68,0.1)'; msg.style.border='1px solid rgba(239,68,68,0.3)'; msg.style.color='#ef4444';
+    msg.textContent='Wrong username or password. Please try again.';
+    logEvent('login','login-failed','Failed login attempt for user: ' + u);
+  }
+  document.getElementById('login-pass').value='';
+}
+
+// Scroll animations 
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.why-card,.comp-card,.team-card,.monitor-line').forEach(el => {
+  el.style.opacity='0'; el.style.transform='translateY(20px)'; el.style.transition='opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+window.addEventListener('load', () => { logEvent('system','page-load','User loaded LogGuard AI website — session started'); });
+window.addEventListener('beforeunload', () => { logEvent('system','page-unload','User left LogGuard AI website — session ended'); });
+</script>
+</body>
+</html>
